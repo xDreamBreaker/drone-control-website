@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Control</title>
+    <style>
+        button {
+            display: block;
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Drone Control</h1>
+    <button onclick="sendCommand('takeoff')">Взлет</button>
+    <button onclick="sendCommand('move')">Движение по маршруту</button>
+    <button onclick="sendCommand('return')">Вернуться на изначальную точку</button>
+    <button onclick="sendCommand('land')">Приземлиться</button>
+
+    <script>
+        async function sendCommand(command) {
+            try {
+                const response = await fetch('http://localhost:3000/api/drone/command', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ command })
+                });
+                const data = await response.json();
+                alert(`Command ${command} sent successfully: ${JSON.stringify(data)}`);
+            } catch (error) {
+                alert(`Failed to send command ${command}: ${error.message}`);
+            }
+        }
+    </script>
+</body>
+</html>
