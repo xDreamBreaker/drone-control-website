@@ -10,15 +10,17 @@
     <button onclick="takeoff()">Take Off</button>
     <button onclick="move()">Move</button>
     <button onclick="land()">Land</button>
-    <img id="video" src="/video_feed" alt="Video Feed">
+    <img id="video" src="" alt="Video Feed">
 
     <script>
+        const serverUrl = 'http://127.0.0.1:5000';  // Замените на URL вашего Flask сервера
+
         function takeoff() {
-            fetch('/takeoff', { method: 'POST' });
+            fetch(`${serverUrl}/takeoff`, { method: 'POST' });
         }
 
         function move() {
-            fetch('/move', {
+            fetch(`${serverUrl}/move`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ x: 10, y: 0, z: -3, speed: 5 })
@@ -26,11 +28,11 @@
         }
 
         function land() {
-            fetch('/land', { method: 'POST' });
+            fetch(`${serverUrl}/land`, { method: 'POST' });
         }
 
         setInterval(() => {
-            document.getElementById('video').src = '/video_feed?' + new Date().getTime();
+            document.getElementById('video').src = `${serverUrl}/video_feed?` + new Date().getTime();
         }, 100);
     </script>
 </body>
