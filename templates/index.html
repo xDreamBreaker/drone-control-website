@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Control</title>
+</head>
+<body>
+    <h1>Drone Control</h1>
+    <button onclick="takeoff()">Take Off</button>
+    <button onclick="move()">Move</button>
+    <button onclick="land()">Land</button>
+    <img id="video" src="/video_feed" alt="Video Feed">
+
+    <script>
+        function takeoff() {
+            fetch('/takeoff', { method: 'POST' });
+        }
+
+        function move() {
+            fetch('/move', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ x: 10, y: 0, z: -3, speed: 5 })
+            });
+        }
+
+        function land() {
+            fetch('/land', { method: 'POST' });
+        }
+
+        setInterval(() => {
+            document.getElementById('video').src = '/video_feed?' + new Date().getTime();
+        }, 100);
+    </script>
+</body>
+</html>
 
